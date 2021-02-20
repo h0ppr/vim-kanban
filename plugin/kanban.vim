@@ -5,4 +5,5 @@ endfun
 
 augroup Kanban
     autocmd!
+    autocmd VimResized * :lua require("kanban").onResize()
 augroup END
