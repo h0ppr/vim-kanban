@@ -1,5 +1,12 @@
 local win, bufh
 
+local function center(str)
+    local width = lb
+    local shift = math.floor(width/2) - math.floor(string.len(str) / 2)
+    return string.rep(' ', shift) .. str
+end
+
+
 local function createFloatingWindow()
     bufh = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_option(bufh, 'bufhidden', 'wipe')
@@ -45,8 +52,13 @@ local function createFloatingWindow()
     vim.api.nvim_buf_set_lines(border_buf, 0, -1, false, border_lines)
 
     local border_win = vim.api.nvim_open_win(border_buf, true, border_opts)
-    --vim.api.nvim_open_win(bufh, true, bufh_opts)
+    win = vim.api.nvim_open_win(bufh, true, opts)
+
     vim.api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "'..border_buf)
+    vim.api.nvim_buf_set_lines(bufh, 0, -1, false, {
+        center('Vim-Kanban Default'),
+        ''
+    })
 end
 
 local function onResize()
