@@ -1,7 +1,8 @@
 local win, bufh
 
-local function center(str)
+local function center(str, lb)
     local width = lb
+    --local width = vim.api.nvim_get_get_width(0)
     local shift = math.floor(width/2) - math.floor(string.len(str) / 2)
     return string.rep(' ', shift) .. str
 end
@@ -10,6 +11,7 @@ end
 local function createFloatingWindow()
     bufh = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_option(bufh, 'bufhidden', 'wipe')
+    --vim.api.nvim_buf_set_option(bufh, 'filetype', 'Vim-Kanban')
 
     local stats = vim.api.nvim_list_uis()[1]
     local width = stats.width
@@ -21,7 +23,8 @@ local function createFloatingWindow()
     local row = math.ceil((height - dim_height) / 2 - 1)
     local col = math.ceil((width - (dim_width*1.1)))
 
-    local lb = math.ceil(dim_width/4) - 1
+    --local lb = math.ceil(dim_width/4) - 1
+    local lb = math.ceil(dim_width/3) - 1
 
     local bufh_opts = {
         style='minimal',
@@ -43,7 +46,8 @@ local function createFloatingWindow()
 
     local border_buf = vim.api.nvim_create_buf(false, true)
     local border_lines = { '╔' .. string.rep('═', dim_width) .. '╗' }
-    local linebreak = '║' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '║'
+    local linebreak = '║' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '║'
+    --local linebreak = '║' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '║'
     for i=1, dim_height do
           table.insert(border_lines, linebreak)
     end
@@ -56,7 +60,7 @@ local function createFloatingWindow()
 
     vim.api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "'..border_buf)
     vim.api.nvim_buf_set_lines(bufh, 0, -1, false, {
-        center('Vim-Kanban Default'),
+        center('Vim-Kanban Default', lb),
         ''
     })
 end
