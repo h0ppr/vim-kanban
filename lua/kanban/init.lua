@@ -2,8 +2,8 @@ local api = vim.api
 local win, bufh
 
 local function center(str)
+    --local width = lb
     local width = api.nvim_win_get_width(0)
-    --local width = api.nvim_win_get_width(0) / 3 - 1
     local shift = math.floor(width/2) - math.floor(string.len(str) / 2)
     return string.rep(' ', shift) .. str
 end
@@ -23,7 +23,6 @@ local function createFloatingWindow()
   local win_width = math.ceil(width * 0.8)
   local row = math.ceil((height - win_height) / 2 - 1)
   local col = math.ceil((width - win_width) / 2)
-  local lb = math.ceil(win_width/3) - 1
 
   local border_opts = {
     style = "minimal",
@@ -43,9 +42,9 @@ local function createFloatingWindow()
     col = col
   }
 
+  local lb = math.floor(win_width/3)-3
   local border_lines = { '╔' .. string.rep('═', win_width) .. '╗' }
-  --local middle_line = '║' .. string.rep(' ', win_width) .. '║'
-  local middle_line = '║' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '|' .. string.rep(' ', lb) .. '║'
+  local middle_line = '║' .. string.rep(' ', win_width) .. '║'
   for i=1, win_height do
     table.insert(border_lines, middle_line)
   end
@@ -58,7 +57,7 @@ local function createFloatingWindow()
 
   vim.api.nvim_win_set_option(win, 'cursorline', true)
 
-  api.nvim_buf_set_lines(buf, 0, -1, false, { center('TODO'), '', ''})
+  api.nvim_buf_set_lines(buf, 0, -1, false, { center('Vim-Kanban'), '', ''})
   api.nvim_buf_add_highlight(buf, -1, 'WhidHeader', 0, 0, -1)
 end
 
