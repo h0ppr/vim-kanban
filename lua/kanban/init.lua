@@ -2,16 +2,23 @@ local api = vim.api
 local win, bufh
 
 local function center(str)
-    --local width = lb
     local width = api.nvim_win_get_width(0)
     local shift = math.floor(width/2) - math.floor(string.len(str) / 2)
     return string.rep(' ', shift) .. str
 end
 
 
+function fileChecker()
+    local f=io.open('../.todo.md', 'r')
+    if f~=nil then io.close(f) return true else return false end
+end
+
+
 local function createFloatingWindow()
   buf = vim.api.nvim_create_buf(false, true)
   local border_buf = vim.api.nvim_create_buf(false, true)
+
+  print(fileChecker())
 
   vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
   vim.api.nvim_buf_set_option(buf, 'filetype', 'whid')
