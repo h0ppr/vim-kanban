@@ -7,9 +7,13 @@ local function center(str)
     return string.rep(' ', shift) .. str
 end
 
+local function centerColumn(str, col)
+    local width = api.nvim_win_get_width(0)
+end
+
 
 function fileChecker()
-    local f=io.open('../.todo.md', 'r')
+    local f=io.open('.todo.md', 'r')
     if f~=nil then io.close(f) return true else return false end
 end
 
@@ -65,6 +69,7 @@ local function createFloatingWindow()
   vim.api.nvim_win_set_option(win, 'cursorline', true)
 
   api.nvim_buf_set_lines(buf, 0, -1, false, { center('Vim-Kanban'), '', ''})
+  api.nvim_buf_set_lines(buf, 1, -1, false, { center('TODO'), '', ''})
   api.nvim_buf_add_highlight(buf, -1, 'WhidHeader', 0, 0, -1)
 end
 
