@@ -17,9 +17,11 @@ function fileChecker()
     local file_contents = f:read("*a")
     local titles = {}
 
-    local file= io.open('.todo.md', 'r')
+    local file= io.open('.todo.md', 'a+')
     titles[0] = file:read()
+    print(file:read('*a'))
     local columns = #titles
+    file:write("- [ ] TEST")
 
     return columns, titles
 end
@@ -31,7 +33,6 @@ local function createFloatingWindow()
 
     local cols, titles = fileChecker()
     print(cols)
-    print(titles[0])
 
     vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
     vim.api.nvim_buf_set_option(buf, 'filetype', 'whid')
@@ -78,7 +79,7 @@ local function createFloatingWindow()
     vim.api.nvim_win_set_option(win, 'cursorline', true)
 
     api.nvim_buf_set_lines(buf, 0, -1, false, { center('Vim-Kanban'), '', ''})
-    api.nvim_buf_set_lines(buf, 1, -1, false, { center('TODO'), '', ''})
+    api.nvim_buf_set_lines(buf, 1, -1, false, { center(titles[0]), '', ''})
     api.nvim_buf_add_highlight(buf, -1, 'WhidHeader', 0, 0, -1)
 end
 
