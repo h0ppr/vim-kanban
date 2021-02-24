@@ -22,6 +22,11 @@ function fileChecker()
     print(file:read('*a'))
     local columns = #titles
     file:write("- [ ] TEST")
+    file:write("\n  - [ ] SUBTEST")
+    file:write("\n    - [ ] SUB SUBTEST")
+    file:write("\n  - [ ] SUBTEST 2")
+    file:write("\n    - [ ] SUB SUBTEST")
+    file:write("\n    - [ ] SUB SUBTEST 2")
 
     return columns, titles
 end
