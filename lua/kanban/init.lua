@@ -21,12 +21,13 @@ function fileChecker()
     titles[0] = file:read()
     print(file:read('*a'))
     local columns = #titles
-    file:write("- [ ] TEST")
-    file:write("\n  - [ ] SUBTEST")
-    file:write("\n    - [ ] SUB SUBTEST")
-    file:write("\n  - [ ] SUBTEST 2")
-    file:write("\n    - [ ] SUB SUBTEST")
-    file:write("\n    - [ ] SUB SUBTEST 2")
+    print(columns)
+    --file:write("- [ ] TEST")
+    --file:write("\n  - [ ] SUBTEST")
+    --file:write("\n    - [ ] SUB SUBTEST")
+    --file:write("\n  - [ ] SUBTEST 2")
+    --file:write("\n    - [ ] SUB SUBTEST")
+    --file:write("\n    - [ ] SUB SUBTEST 2")
 
     return columns, titles
 end
@@ -68,7 +69,16 @@ local function createFloatingWindow()
         col = col
     }
 
-    local lb = math.floor(win_width/3)-3
+    local column_opts = {
+        style = 'minimal',
+        relative = 'editor',
+        width = win_width/3,
+        height = win_height,
+        row = row,
+        col = col
+    }
+
+    local lb = math.floor(win_width/3)
     local border_lines = { '╔' .. string.rep('═', win_width) .. '╗' }
     local middle_line = '║' .. string.rep(' ', win_width) .. '║'
     for i=1, win_height do
@@ -79,6 +89,7 @@ local function createFloatingWindow()
 
     local border_win = vim.api.nvim_open_win(border_buf, true, border_opts)
     win = api.nvim_open_win(buf, true, opts)
+
     api.nvim_command('au BufWipeout <buffer> exe "silent bwipeout! "'..border_buf)
 
     vim.api.nvim_win_set_option(win, 'cursorline', true)
